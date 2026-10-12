@@ -1,0 +1,176 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: local
+    container_name: app_studing
+#    restart: always
+    working_dir: /var/www
+    volumes:
+      - ./laravel:/var/www
+      - ./storage/logs:/var/www/storage/logs
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/99-upload.ini
+      - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/99-xdebug.ini
+      - ./docker/imagemagick/policy.xml:/etc/ImageMagick-6/policy.xml
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - MAGICK_TMPDIR=/var/www/storage/app/imagemagick-cache
+      - PHP_IDE_CONFIG=serverName=studing
+    ports:
+      - "8284:80"
+    networks:
+      - studing
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  reverb:
+    build:
+      context: .
+      dockerfile: Reverb.Dockerfile
+    container_name: reverb_studing
+    working_dir: /var/www
+    volumes:
+      - ./laravel:/var/www
+    ports:
+      - "8080:8080"
+    networks:
+      - studing
+
+
+  redis:
+    image: redis:alpine
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 128M
+#    restart: unless-stopped
+    command: redis-server --appendonly yes #включение постоянного сохранения данных.
+    ports:
+      - "6379:6379"
+    container_name: redis_studing
+    volumes:
+      - ./redis:/data
+    networks:
+      - studing
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_studing
+#    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-laravel}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+      POSTGRES_DB: ${DB_DATABASE:-laravel}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C.UTF-8"
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - studing
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME:-laravel} -d ${DB_DATABASE:-laravel}" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: local
+#    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./laravel:/var/www
+      - ./storage/logs:/var/www/storage/logs
+    environment:
+      - APP_ENV=local
+    command: php artisan queue:work --sleep=3 --tries=3 --timeout=300
+    networks:
+      - studing
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "pgrep -f 'queue:work'" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: local
+#    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./laravel:/var/www
+      - ./storage/logs:/var/www/storage/logs
+    command: php artisan schedule:work
+    networks:
+      - studing
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+#  ollama:
+#    image: ollama/ollama:latest
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '1.5'         # Абсолютный минимум для сносной скорости
+#          memory: 2000M       # Потолок (Limit)
+#        reservations:
+#          memory: 1600M       # Гарантированный минимум (Reservation)
+#    container_name: ollama_ai
+#    ports:
+#      - "11434:11434"
+#    volumes:
+#      - ollama_data:/root/.ollama
+#    restart: unless-stopped
+#    networks:
+#      - studing
+
+#  ollama-model-loader:
+#    image: curlimages/curl:latest
+#    container_name: ollama_loader
+#    # Команда делает локальный API-запрос к Ollama для скачивания модели
+#    command: >
+#      curl -X POST http://ollama:11434/api/pull -d '{"name": "gemma2:2b"}'
+#    depends_on:
+#      - ollama
+#    restart: on-failure4
+#    networks:
+#      - studing
+
+volumes:
+  storage: {}
+  redis: {}
+  pgdata: {}
+  ollama_data:
+
+networks:
+  studing:
+    name: studing
+    external: true
