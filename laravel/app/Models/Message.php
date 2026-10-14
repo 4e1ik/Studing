@@ -10,20 +10,11 @@ class Message extends Model
     protected $table = 'messages';
     protected $fillable = [
         'chat_id',
-        'user_id',
+        'messageable_id',
+        'messageable_type',
         'text',
-        'attachments',
         'old_message_id'
     ];
-
-    protected $casts = [
-        'attachments' => 'array'
-    ];
-
-    public function images()
-    {
-        return $this->morphMany(Images::class, 'imageable');
-    }
 
     public function files()
     {

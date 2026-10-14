@@ -8,8 +8,6 @@ class Chat extends Model
 {
     protected $table = 'chats';
     protected $fillable = [
-        'chatable_id',
-        'chatable_type',
         'active'
     ];
 
@@ -17,9 +15,8 @@ class Chat extends Model
         'active' => 'boolean'
     ];
 
-
-    public function message()
+    public function messages()
     {
-        return $this->hasMany(Message::class, 'user_id', 'id');
+        return $this->hasMany(Message::class, 'chat_id');
     }
 }

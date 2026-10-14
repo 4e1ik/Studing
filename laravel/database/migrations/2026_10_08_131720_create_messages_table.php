@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('chat_id')->nullable(false)->constrained('chats');
-            $table->foreignId('user_id')->nullable(false)->constrained('users');
+            $table->morphs('messageable');
+            $table->foreignId('chat_id')->nullable(false)->constrained('users');
             $table->text('text')->nullable(false);
-            $table->jsonb('attachments')->nullable();
             $table->integer('old_message_id')->nullable();
             $table->softDeletes();
             $table->timestamps();

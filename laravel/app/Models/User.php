@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -34,18 +35,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function chat()
+    public function chats()
     {
-        return $this->morphMany(Chat::class, 'chatable');
+        return $this->morphToMany(Chat::class, 'user_chatable', 'user_chat');
     }
 
-    public function message()
+    public function messages()
     {
-        return $this->hasMany(Message::class, 'user_id', 'id');
+        return $this->morphMany(Message::class, 'messageable');
     }
 
-    public function image()
+    public function files()
     {
-        return $this->morphMany(Images::class, 'imageable');
+        return $this->morphMany(File::class, 'fileable');
     }
 }

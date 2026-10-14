@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chats', function (Blueprint $table) {
+        Schema::create('user_chat', function (Blueprint $table) {
             $table->id();
-            $table->morphs('chatable');
-            $table->boolean('active')->nullable();
+            $table->unsignedBigInteger('chat_id');
+            $table->morphs('user_chatable');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chats');
+        Schema::dropIfExists('user_chat');
     }
 };

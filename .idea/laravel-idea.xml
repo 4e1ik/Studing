@@ -18,6 +18,11 @@
     </option>
     <option name="frameworkFound" value="true" />
     <option name="laravelBasePath" value="laravel" />
+    <option name="translation">
+      <LaravelTranslation>
+        <option name="defaultLanguageFromConfig" value="ru" />
+      </LaravelTranslation>
+    </option>
     <option name="userClassName" value="\App\Models\User" />
   </component>
 </project>
