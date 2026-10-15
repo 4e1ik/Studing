@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('user_chat', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('chat_id');
+            $table->foreignId('chat_id')->constrained('chats');
             $table->morphs('user_chatable');
-            $table->softDeletes();
+            $table->unique(['chat_id', 'user_chatable_type', 'user_chatable_id']); // Запрещает делать 2 одинаковые записи с одним чатом и одним пользователем
             $table->timestamps();
         });
     }

@@ -13,11 +13,26 @@ class Message extends Model
         'messageable_id',
         'messageable_type',
         'text',
+        'is_read',
         'old_message_id'
+    ];
+
+    protected $casts = [
+        'is_read' => 'boolean'
     ];
 
     public function files()
     {
         return $this->morphMany(File::class , 'fileable');
+    }
+
+    public function chat()
+    {
+        return $this->belongsTo(Chat::class);
+    }
+
+    public function messageable()
+    {
+        return $this->morphTo();
     }
 }

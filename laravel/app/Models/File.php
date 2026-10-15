@@ -14,4 +14,9 @@ class File extends Model
         'type',
         'extension'
     ];
+
+    public function fileable()
+    {
+        return $this->morphTo();
+    }
 }

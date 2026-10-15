@@ -19,4 +19,9 @@ class Chat extends Model
     {
         return $this->hasMany(Message::class, 'chat_id');
     }
+
+    public function users()
+    {
+        return $this->morphedByMany(User::class, 'user_chatable', 'user_chat');
+    }
 }
