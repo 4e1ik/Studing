@@ -1,0 +1,6 @@
+/storage
+/redis
+/pgdata
+.idea
+/storage/
+graphify-out/
