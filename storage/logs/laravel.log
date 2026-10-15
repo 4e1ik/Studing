@@ -120856,3 +120856,136 @@ LINE 1: select * from \"sessions\" where \"id\" = $1 limit 1
 #51 /var/www/public/index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #52 {main}
 "} 
+[2026-10-15 07:39:11] local.ERROR: There are no commands defined in the "create" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"create\" namespace. at /var/www/vendor/symfony/console/Application.php:717)
+[stacktrace]
+#0 /var/www/vendor/symfony/console/Application.php(770): Symfony\\Component\\Console\\Application->findNamespace('create')
+#1 /var/www/vendor/symfony/console/Application.php(322): Symfony\\Component\\Console\\Application->find('create:controll...')
+#2 /var/www/vendor/symfony/console/Application.php(219): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(205): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1243): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 /var/www/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#6 {main}
+"} 
+[2026-10-15 09:36:02] local.ERROR: Cannot modify header information - headers already sent by (output started at /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/HtmlDumper.php:113) {"exception":"[object] (ErrorException(code: 0): Cannot modify header information - headers already sent by (output started at /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/HtmlDumper.php:113) at /var/www/vendor/symfony/http-foundation/Response.php:328)
+[stacktrace]
+#0 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(265): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Cannot modify h...', '/var/www/vendor...', 328)
+#1 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->{closure:Illuminate\\Foundation\\Bootstrap\\HandleExceptions::forwardsTo():264}(2, 'Cannot modify h...', '/var/www/vendor...', 328)
+#2 /var/www/vendor/symfony/http-foundation/Response.php(328): header('HTTP/1.1 200 OK', true, 200)
+#3 /var/www/vendor/symfony/http-foundation/Response.php(407): Symfony\\Component\\HttpFoundation\\Response->sendHeaders()
+#4 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1228): Symfony\\Component\\HttpFoundation\\Response->send()
+#5 /var/www/public/index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
+#6 {main}
+"} 
+[2026-10-15 09:36:02] local.ERROR: Uncaught ErrorException: Cannot modify header information - headers already sent by (output started at /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/HtmlDumper.php:113) in /var/www/vendor/symfony/http-foundation/Response.php:328
+Stack trace:
+#0 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(265): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'Cannot modify h...', '/var/www/vendor...', 328)
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->{closure:Illuminate\Foundation\Bootstrap\HandleExceptions::forwardsTo():264}(2, 'Cannot modify h...', '/var/www/vendor...', 328)
+#2 /var/www/vendor/symfony/http-foundation/Response.php(328): header('HTTP/1.0 500 In...', true, 500)
+#3 /var/www/vendor/symfony/http-foundation/Response.php(407): Symfony\Component\HttpFoundation\Response->sendHeaders()
+#4 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(228): Symfony\Component\HttpFoundation\Response->send()
+#5 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(205): Illuminate\Foundation\Bootstrap\HandleExceptions->renderHttpResponse(Object(ErrorException))
+#6 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(265): Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(ErrorException))
+#7 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->{closure:Illuminate\Foundation\Bootstrap\HandleExceptions::forwardsTo():264}(Object(ErrorException))
+#8 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ErrorException: Cannot modify header information - headers already sent by (output started at /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/HtmlDumper.php:113) in /var/www/vendor/symfony/http-foundation/Response.php:328
+Stack trace:
+#0 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(265): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Cannot modify h...', '/var/www/vendor...', 328)
+#1 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->{closure:Illuminate\\Foundation\\Bootstrap\\HandleExceptions::forwardsTo():264}(2, 'Cannot modify h...', '/var/www/vendor...', 328)
+#2 /var/www/vendor/symfony/http-foundation/Response.php(328): header('HTTP/1.0 500 In...', true, 500)
+#3 /var/www/vendor/symfony/http-foundation/Response.php(407): Symfony\\Component\\HttpFoundation\\Response->sendHeaders()
+#4 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(228): Symfony\\Component\\HttpFoundation\\Response->send()
+#5 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(205): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->renderHttpResponse(Object(ErrorException))
+#6 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(265): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleException(Object(ErrorException))
+#7 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->{closure:Illuminate\\Foundation\\Bootstrap\\HandleExceptions::forwardsTo():264}(Object(ErrorException))
+#8 {main}
+  thrown at /var/www/vendor/symfony/http-foundation/Response.php:328)
+[stacktrace]
+#0 {main}
+"} 
+[2026-10-15 09:43:57] local.ERROR: Command "make:LoginRequest" is not defined.
+
+Did you mean one of these?
+    make:cache-table
+    make:cast
+    make:channel
+    make:class
+    make:command
+    make:component
+    make:config
+    make:controller
+    make:enum
+    make:event
+    make:exception
+    make:factory
+    make:interface
+    make:job
+    make:job-middleware
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:notifications-table
+    make:observer
+    make:policy
+    make:provider
+    make:queue-batches-table
+    make:queue-failed-table
+    make:queue-table
+    make:request
+    make:resource
+    make:rule
+    make:scope
+    make:seeder
+    make:session-table
+    make:test
+    make:trait
+    make:view {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"make:LoginRequest\" is not defined.
+
+Did you mean one of these?
+    make:cache-table
+    make:cast
+    make:channel
+    make:class
+    make:command
+    make:component
+    make:config
+    make:controller
+    make:enum
+    make:event
+    make:exception
+    make:factory
+    make:interface
+    make:job
+    make:job-middleware
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:notifications-table
+    make:observer
+    make:policy
+    make:provider
+    make:queue-batches-table
+    make:queue-failed-table
+    make:queue-table
+    make:request
+    make:resource
+    make:rule
+    make:scope
+    make:seeder
+    make:session-table
+    make:test
+    make:trait
+    make:view at /var/www/vendor/symfony/console/Application.php:786)
+[stacktrace]
+#0 /var/www/vendor/symfony/console/Application.php(322): Symfony\\Component\\Console\\Application->find('make:LoginReque...')
+#1 /var/www/vendor/symfony/console/Application.php(219): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(205): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1243): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 /var/www/artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#5 {main}
+"} 

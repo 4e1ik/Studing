@@ -1,0 +1,45 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services;
+
+use App\DTO\LoginDTO;
+use App\DTO\SignUpDTO;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
+class AuthService
+{
+    public function signUp(SignUpDTO $dto): array
+    {
+        return DB::transaction(function () use ($dto) {
+            $user = User::create([
+                'name' => $dto->name,
+                'email' => $dto->email,
+                'password' => $dto->password, // В модели User password => hashed, что автоматически хэширует его
+            ]);
+
+            $token = $user->createToken(config('app.name'))->plainTextToken;
+            return [
+                'token' => $token,
+                'user' => $user,
+            ];
+        });
+    }
+
+    public function login(LoginDTO $dto): array
+    {
+        return DB::transaction(function () use ($dto) {
+            $user = User::whereEmail($dto->email)->first();
+            if (!$user || !Hash::check($dto->password, $user->password)) {
+                $token = $user->createToken(config('app.name'))->plainTextToken;
+            }
+            return [
+                'token' => $token,
+                'user' => $user,
+            ];
+        });
+    }
+}
