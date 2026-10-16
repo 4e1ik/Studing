@@ -13,6 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::group(['prefix' => 'chat'], function () {
-        Route::post('/send-message', [ChatController::class, 'sendMessage']);
+        Route::get('/chats',           [ChatController::class, 'getUserChats']);
+        Route::post('/send-message',    [ChatController::class, 'sendMessage']);
     });
 });

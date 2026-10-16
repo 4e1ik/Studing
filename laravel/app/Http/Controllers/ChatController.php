@@ -7,11 +7,20 @@ namespace App\Http\Controllers;
 use App\DTO\SendMessageDTO;
 use App\Heplers\ApiResponse;
 use App\Http\Requests\SendMessageRequest;
+use App\Repositories\ChatRepository;
 use App\Services\ChatService;
 use Throwable;
 
 class ChatController extends Controller
 {
+    public function getUserChats(ChatRepository $chatRepository)
+    {
+        try {
+            return ApiResponse::success($chatRepository->getUserChats());
+        } catch (Throwable $exception) {
+            return ApiResponse::error($exception);
+        }
+    }
     public function sendMessage(SendMessageRequest $request, ChatService $chatService)
     {
         try {
