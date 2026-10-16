@@ -10,6 +10,7 @@ use App\Heplers\ApiResponse;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignUpRequest;
 use App\Services\AuthService;
+use Illuminate\Http\Request;
 use Throwable;
 
 class AuthController extends Controller
@@ -39,11 +40,11 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         try {
             return ApiResponse::success(
-
+                $request->user()->tokens()->delete()
             );
         } catch (Throwable $exception) {
             return ApiResponse::error($exception);

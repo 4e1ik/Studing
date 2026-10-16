@@ -4,16 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-Route::post('/test', function () {
-    return 'test';
-});
 
 Route::post('/sign-up', [AuthController::class, 'signUp']);
 Route::post('/login', [AuthController::class, 'login']);

@@ -7,6 +7,7 @@ namespace App\Services;
 use App\DTO\LoginDTO;
 use App\DTO\SignUpDTO;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,9 +34,12 @@ class AuthService
     {
         return DB::transaction(function () use ($dto) {
             $user = User::whereEmail($dto->email)->first();
-            if (!$user || !Hash::check($dto->password, $user->password)) {
-                $token = $user->createToken(config('app.name'))->plainTextToken;
-            }
+
+            throw_if(!$user, new Exception( 'Такого пользователя не существует', 404));
+            throw_if(!Hash::check($dto->password, $user->password), new Exception('Такой комбинации email и пароля не существует', 404));
+
+            $token = $user->createToken(config('app.name'))->plainTextToken;
+
             return [
                 'token' => $token,
                 'user' => $user,

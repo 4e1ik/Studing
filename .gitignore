@@ -2,5 +2,5 @@
 /redis
 /pgdata
 .idea
-/storage/
 graphify-out/
+*/storage/logs/laravel.log
