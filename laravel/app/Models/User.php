@@ -15,6 +15,10 @@ use Laravel\Sanctum\HasApiTokens;
     'name',
     'email',
     'password',
+    'chat_id',
+    'text',
+    'receiver_id',
+    'old_message_id',
 ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable

@@ -23,6 +23,8 @@ class SendMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'chat_id' => 'nullable|integer',
+            'receiver_id' => 'required|integer|exists:users,id',
             'message' => 'nullable|string',
             'old_message_id' => 'nullable|integer',
             'files' => 'nullable|array',

@@ -17,6 +17,8 @@ class ChatController extends Controller
         try {
             return ApiResponse::success($chatService->sendMessage(
                 new SendMessageDTO(
+                    chat_id:        $request['chat_id'],
+                    receiver_id:    $request['receiver_id'],
                     message:        $request['message'],
                     old_message_id: $request['old_message_id'],
                     files:          $request->file('files'),

@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Message extends Model
 {
     protected $table = 'messages';
     protected $fillable = [
         'chat_id',
+        'receiver_id',
         'messageable_id',
         'messageable_type',
         'text',
@@ -34,5 +34,10 @@ class Message extends Model
     public function messageable()
     {
         return $this->morphTo();
+    }
+
+    public function receiver()
+    {
+        return $this->belongsTo(User::class, 'receiver_id');
     }
 }

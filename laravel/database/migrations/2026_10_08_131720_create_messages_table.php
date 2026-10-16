@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->morphs('messageable');
             $table->foreignId('chat_id')->nullable(false)->constrained('chats');
+            $table->foreignId('receiver_id')->nullable(false)->constrained('users');
             $table->text('text')->nullable();
             $table->boolean('is_read')->default(false);
             $table->integer('old_message_id')->nullable();
