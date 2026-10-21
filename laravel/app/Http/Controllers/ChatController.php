@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\DTO\GetMessagesDTO;
 use App\DTO\SendMessageDTO;
 use App\Heplers\ApiResponse;
+use App\Http\Requests\GetMessagesRequest;
 use App\Http\Requests\SendMessageRequest;
 use App\Repositories\ChatRepository;
 use App\Services\ChatService;
@@ -31,6 +33,20 @@ class ChatController extends Controller
                     message:        $request['message'],
                     old_message_id: $request['old_message_id'],
                     files:          $request->file('files'),
+                )
+            ));
+        } catch (Throwable $exception) {
+            return ApiResponse::error($exception);
+        }
+    }
+
+    public function getMessages(GetMessagesRequest $request, ChatService $chatService)
+    {
+        try {
+            return ApiResponse::success($chatService->getMessages(
+                new GetMessagesDTO(
+                    chat_id:        $request['chat_id'],
+//                    receiver_id:    $request['receiver_id'],
                 )
             ));
         } catch (Throwable $exception) {

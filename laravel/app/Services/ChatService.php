@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\DTO\GetMessagesDTO;
 use App\DTO\SendMessageDTO;
 use App\Models\Chat;
 use App\Models\User;
@@ -43,5 +44,25 @@ class ChatService
 
             return true;
         });
+    }
+
+    public function getMessages(GetMessagesDTO $dto)
+    {
+        $user = auth()->user();
+//        dd($dto->chat_id);
+        $chat = $user->chats()
+                     ->with('messages')
+                     ->where('chats.id', $dto->chat_id)
+                     ->where('active', true)
+                     ->first();
+        $messages = $chat->messages;
+        $authUserMessages = $messages->where('receiver_id', '!=', $user->id);
+        $receiverUserMessages = $messages->where('receiver_id', $user->id);
+
+//        usort($filtered, fn($a, $b) => strtotime($b['date']) <=> strtotime($a['date'])); //Фильтрация массива по убыванию
+        foreach ($authUserMessages as $authUserMessage) {
+            dump($authUserMessage->text);
+        }
+
     }
 }
