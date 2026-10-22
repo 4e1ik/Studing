@@ -7,17 +7,22 @@ namespace App\Services;
 use App\DTO\GetMessagesDTO;
 use App\DTO\SendMessageDTO;
 use App\Models\Chat;
-use App\Models\User;
+use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class ChatService
 {
+    /**
+     * @throws Throwable
+     */
     public function sendMessage(SendMessageDTO $dto): bool
     {
         return DB::transaction(function () use ($dto) {
             $message = $dto->message;
             $old_message_id = $dto->old_message_id;
-            $files = $dto->files;
+//            $files = $dto->files;
             $chat_id = $dto->chat_id;
             $receiver_id = $dto->receiver_id;
 
@@ -31,7 +36,7 @@ class ChatService
                 : $user->chats()->find($chat_id);
 
             if ($chat === null && $chat_id === null) {
-                $chat = Chat::create();
+                $chat = Chat::query()->create();
                 $chat->users()->attach([$user->id, $receiver_id]);
             }
 
@@ -46,33 +51,22 @@ class ChatService
         });
     }
 
-    public function getMessages(GetMessagesDTO $dto)
+    /**
+     * @throws Throwable
+     */
+    public function getMessages(GetMessagesDTO $dto): Collection
     {
-        $user = auth()->user();
-//        dd($dto->chat_id);
-        $chat = $user->chats()
+        $chat = auth()->user()->chats()
                      ->with([
                          'messages' => fn ($query) => $query
-                         ->select('messages.messageable_id', 'messages.text', 'messages.created_at')
-                         ->orderByDesc('messages.created_at'), 'messages.messageable'
+                         ->orderBy('messages.created_at'), 'messages.messageable'
                      ])
                      ->where('chats.id', $dto->chat_id)
                      ->where('active', true)
                      ->first();
-        $messages = $chat->messages;
-//        foreach ($messages as $message) {
-//            dump($message->created_at);
-//        }
-//        $messages = $chat->messages;
-//        dd($messages);
-//        $authUserMessages = $messages->where('receiver_id', '!=', $user->id);
-//        $receiverUserMessages = $messages->where('receiver_id', $user->id);
-//        dd($authUserMessages, $receiverUserMessages);
 
-//        usort($filtered, fn($a, $b) => strtotime($b['date']) <=> strtotime($a['date'])); //Фильтрация массива по убыванию
-//        foreach ($authUserMessages as $authUserMessage) {
-//            dump($authUserMessage->text);
-//        }
-        return $messages;
+        throw_if(!$chat, new Exception('Такого чата не существует', 404));
+
+        return $chat->messages;
     }
 }
