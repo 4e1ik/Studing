@@ -51,18 +51,28 @@ class ChatService
         $user = auth()->user();
 //        dd($dto->chat_id);
         $chat = $user->chats()
-                     ->with('messages')
+                     ->with([
+                         'messages' => fn ($query) => $query
+                         ->select('messages.messageable_id', 'messages.text', 'messages.created_at')
+                         ->orderByDesc('messages.created_at'), 'messages.messageable'
+                     ])
                      ->where('chats.id', $dto->chat_id)
                      ->where('active', true)
                      ->first();
         $messages = $chat->messages;
-        $authUserMessages = $messages->where('receiver_id', '!=', $user->id);
-        $receiverUserMessages = $messages->where('receiver_id', $user->id);
+//        foreach ($messages as $message) {
+//            dump($message->created_at);
+//        }
+//        $messages = $chat->messages;
+//        dd($messages);
+//        $authUserMessages = $messages->where('receiver_id', '!=', $user->id);
+//        $receiverUserMessages = $messages->where('receiver_id', $user->id);
+//        dd($authUserMessages, $receiverUserMessages);
 
 //        usort($filtered, fn($a, $b) => strtotime($b['date']) <=> strtotime($a['date'])); //Фильтрация массива по убыванию
-        foreach ($authUserMessages as $authUserMessage) {
-            dump($authUserMessage->text);
-        }
-
+//        foreach ($authUserMessages as $authUserMessage) {
+//            dump($authUserMessage->text);
+//        }
+        return $messages;
     }
 }

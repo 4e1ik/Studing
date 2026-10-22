@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Message extends Model
 {
@@ -21,22 +24,22 @@ class Message extends Model
         'is_read' => 'boolean'
     ];
 
-    public function files()
+    public function files(): MorphMany
     {
         return $this->morphMany(File::class , 'fileable');
     }
 
-    public function chat()
+    public function chat(): BelongsTo
     {
         return $this->belongsTo(Chat::class);
     }
 
-    public function messageable()
+    public function messageable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function receiver()
+    public function receiver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'receiver_id');
     }

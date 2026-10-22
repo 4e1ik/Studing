@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Chat extends Model
 {
@@ -20,7 +21,7 @@ class Chat extends Model
         return $this->hasMany(Message::class, 'chat_id');
     }
 
-    public function users()
+    public function users(): MorphToMany
     {
         return $this->morphedByMany(User::class, 'user_chatable', 'user_chat');
     }

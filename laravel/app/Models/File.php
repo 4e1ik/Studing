@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class File extends Model
 {
@@ -15,7 +16,7 @@ class File extends Model
         'extension'
     ];
 
-    public function fileable()
+    public function fileable(): MorphTo
     {
         return $this->morphTo();
     }
