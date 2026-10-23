@@ -100,7 +100,6 @@
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/symfony/polyfill-intl-normalizer" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/symfony/polyfill-mbstring" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/symfony/polyfill-php80" />
-      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/symfony/polyfill-php82" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/symfony/polyfill-php84" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/symfony/polyfill-php85" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/symfony/polyfill-php86" />
@@ -120,6 +119,21 @@
       <excludeFolder url="file://$MODULE_DIR$/laravel/storage/app" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/storage/framework" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/laravel/sanctum" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/clue/redis-protocol" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/clue/redis-react" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/evenement/evenement" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/laravel/reverb" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/pusher/pusher-php-server" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/ralouphie/getallheaders" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/ratchet/rfc6455" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/react/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/react/dns" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/react/event-loop" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/react/promise" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/react/promise-timer" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/react/socket" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/react/stream" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/symfony/polyfill-time" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
