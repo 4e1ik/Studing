@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\DTO\GetMessagesDTO;
 use App\DTO\SendMessageDTO;
+use App\Events\MessageSent;
 use App\Models\Chat;
 use Exception;
 use Illuminate\Support\Collection;
@@ -19,36 +20,40 @@ class ChatService
      */
     public function sendMessage(SendMessageDTO $dto): bool
     {
-        return DB::transaction(function () use ($dto) {
-            $message = $dto->message;
-            $old_message_id = $dto->old_message_id;
+        $message = $dto->message;
+        $oldMessageId = $dto->old_message_id;
 //            $files = $dto->files;
-            $chat_id = $dto->chat_id;
-            $receiver_id = $dto->receiver_id;
+        $chatId = $dto->chat_id;
+        $receiverId = $dto->receiver_id;
 
-            $user = auth()->user();
+        $user = auth()->user();
 
-            $chat = ($chat_id === null) ?
-                $user->chats()
-                    ->whereHas('users', fn ($query) =>
-                        $query->where('users.id', $receiver_id)
-                    )->first()
-                : $user->chats()->find($chat_id);
+        $chat = ($chatId === null) ?
+            $user->chats()
+                ->whereHas('users', fn ($query) =>
+                    $query->where('users.id', $receiverId)
+                )->first()
+            : $user->chats()->where('chats.id', $chatId)->first();
 
-            if ($chat === null && $chat_id === null) {
+        throw_if($chat === null && $chatId !== null, new Exception('Чат не найден', 404));
+
+        $message = DB::transaction(function () use ($message, $oldMessageId, $chatId, $receiverId, $chat, $user) {
+            if ($chat === null && $chatId === null) {
                 $chat = Chat::query()->create();
-                $chat->users()->attach([$user->id, $receiver_id]);
+                $chat->users()->attach([$user->id, $receiverId]); //Добавляем в линковочную таблицу связь чата с пользователями
             }
 
-            $user->messages()->create([
+            return $user->messages()->create([
                 'chat_id' => $chat->id,
-                'receiver_id' => $receiver_id,
-                'old_message_id' => $old_message_id,
+                'receiver_id' => $receiverId,
+                'old_message_id' => $oldMessageId,
                 'text' => $message,
             ]);
-
-            return true;
         });
+
+        MessageSent::dispatch(message: $message);
+
+        return true;
     }
 
     /**
